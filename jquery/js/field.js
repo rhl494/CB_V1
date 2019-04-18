@@ -1,3 +1,4 @@
+//This works with index2.php
 var counter = 0;
 $(function(){
     $('p#add_field').click(function(){
@@ -5,7 +6,7 @@ $(function(){
     $('#container').append(
         '</br><strong>Question ' + counter + '</strong><br />'
         + '<input id="field_' + counter + '" name="item[]' + '" type="text" />' 
-       // +'<strong>quantity ' + counter + '</strong>' 
+       /// +'<strong>quantity ' + counter + '</strong>' 
        // +'<input class="qty" id="quantity' + counter + '" name="quantity[]' + '" type="text" />' 
        // +'<strong>rate ' + counter + '</strong>' 
        // +'<input id="rate' + counter + '" name="rate[]' + '" type="text" />' 
