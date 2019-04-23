@@ -1,7 +1,7 @@
 <!--
 including header content which is common for all pages
 -->
-<%- include ../layouts/header.ejs %>	
+<%- include ../layouts/header.ejs %>
 
 <% if (messages.error) { %>
 	<p style="color:red"><%- messages.error %></p>
@@ -13,19 +13,19 @@ including header content which is common for all pages
 
 <form action="/users/add" method="post" name="form1">
 	<table width="25%" border="0">
-		<tr> 
-			<td>Name</td>
-			<td><input type="text" name="name" id="name" value="<%= name %>" /></td>
+		<tr>
+			<td>Username</td>
+			<td><input type="text" name="username" id="username" value="<%= username %>" /></td>
 		</tr>
-		<tr> 
-			<td>Age</td>
-			<td><input type="text" name="age" value="<%= age %>" /></td>
+		<tr>
+			<td>Password</td>
+			<td><input type="text" name="password" value="<%= password %>" /></td>
 		</tr>
-		<tr> 
-			<td>Email</td>
-			<td><input type="text" name="email" value="<%= email %>" /></td>
+		<tr>
+			<td>Administrator</td>
+			<td><input type="text" name="administrator" value="<%= administrator %>" /></td>
 		</tr>
-		<tr> 
+		<tr>
 			<td></td>
 			<td><input type="submit" name="Submit" value="Add" /></td>
 		</tr>
