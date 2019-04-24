@@ -1,0 +1,70 @@
+<!--
+including header content which is common for all pages
+-->
+<%- include ../layouts/header.ejs %>
+
+<% if (messages.error) { %>
+	<p style="color:red"><%- messages.error %></p>
+<% } %>
+
+<% if (messages.success) { %>
+	<p style="color:green"><%- messages.success %></p>
+<% } %>
+
+<table width='80%' border=0>
+
+	<tr style='text-align:left; background-color:#CCC'>
+		<th>Question Type</th>
+		<th>Question Text</th>
+		<th>Answer 1</th>
+		<th>Answer 1 Text</th>
+    <th>Answer 2</th>
+		<th>Answer 2 Text</th>
+    <th>Answer 3</th>
+		<th>Answer 3 Text</th>
+    <th>Answer 4</th>
+		<th>Answer 4 Text</th>
+    <th>Correct Answer</th>
+		<th>Action</th>
+	</tr>
+
+	<!--
+		Using FOREACH LOOP for the users array
+
+		myArray.forEach(function(el, index) {
+			// el - current element, i - index
+		});
+	-->
+	<% if (data) { %>
+	<% data.forEach(function(question){ %>
+		<tr>
+			<td><%= question.questionType %></td>
+			<td><%= question.questionText %></td>
+			<td><%= question.answer1 %></td>
+      <td><%= question.answer1Text %></td>
+      <td><%= question.answer2 %></td>
+      <td><%= question.answer2Text %></td>
+      <td><%= question.answer3 %></td>
+      <td><%= question.answer3Text %></td>
+      <td><%= question.answer4 %></td>
+      <td><%= question.answer4Text %></td>
+      <td><%= question.correctAnswer %></td>
+			<td>
+				<div style="float:left">
+					<a href='/admin/edit/<%= question.id %>'>Edit</a> &nbsp;
+					<form method="post" action="/users/delete/<%= question.id %>" style="float:right">
+						<input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+						<input type="hidden" name="_method" value="DELETE" />
+					</form>
+				</div>
+			</td>
+		</tr>
+	<% }) %>
+	<% } %>
+
+</table>
+
+<!--
+including footer content which is common for all pages
+-->
+<%- include ../layouts/footer.ejs %>
