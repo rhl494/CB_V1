@@ -20,7 +20,7 @@ app.get('/questions', function(req, res, next){
 	})
 })
 
-// ADD NEW USER POST ACTION
+// ADD NEW QUESTION POST ACTION
 app.post('/questions', function(req, res, next){
 	req.assert('questionType', 'type is required').notEmpty()           //Validate username
 	req.assert('questionText', 'text is required').notEmpty()             //Validate password
@@ -32,7 +32,7 @@ app.post('/questions', function(req, res, next){
 	req.assert('answer3Text', 'answer text is required').notEmpty()
 	req.assert('answer4', 'Type d').notEmpty()
 	req.assert('answer4Text', 'answer text is required').notEmpty()
-	req.assert('correctText', 'Type a, b, c, d, true, false, t, f').notEmpty()
+	req.assert('correctAnswer', 'Type a, b, c, d, true, false, t, f').notEmpty()
 
     var errors = req.validationErrors()
 
