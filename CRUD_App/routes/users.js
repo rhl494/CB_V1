@@ -8,13 +8,13 @@ app.get('/', function(req, res, next) {
 			//if(err) throw err
 			if (err) {
 				req.flash('error', err)
-				res.render('user/list', {
+				res.render('main/list', {
 					title: 'User List',
 					data: ''
 				})
 			} else {
 				// render to views/user/list.ejs template file
-				res.render('user/list', {
+				res.render('main/list', {
 					title: 'User List',
 					data: rows
 				})
@@ -26,7 +26,7 @@ app.get('/', function(req, res, next) {
 // SHOW ADD USER FORM
 app.get('/add', function(req, res, next){
 	// render to views/user/add.ejs
-	res.render('user/add', {
+	res.render('main/add', {
 		title: 'Add New User',
 		username: '',
 		password: '',
@@ -66,7 +66,7 @@ app.post('/add', function(req, res, next){
 					req.flash('error', err)
 
 					// render to views/user/add.ejs
-					res.render('user/add', {
+					res.render('main/add', {
 						title: 'Add New User',
 						username: user.username,
 						password: user.password,
@@ -76,7 +76,7 @@ app.post('/add', function(req, res, next){
 					req.flash('success', 'Data added successfully!')
 
 					// render to views/user/add.ejs
-					res.render('user/add', {
+					res.render('main/add', {
 						title: 'Add New User',
 						username: '',
 						password: '',
@@ -97,7 +97,7 @@ app.post('/add', function(req, res, next){
 		 * Using req.body.name
 		 * because req.param('name') is deprecated
 		 */
-        res.render('user/add', {
+        res.render('main/add', {
             title: 'Add New User',
             username: req.body.username,
             password: req.body.password,
@@ -119,7 +119,7 @@ app.get('/edit/(:id)', function(req, res, next){
 			}
 			else { // if user found
 				// render to views/user/edit.ejs template file
-				res.render('user/edit', {
+				res.render('main/edit', {
 					title: 'Edit User',
 					//data: rows[0],
 					id: rows[0].id,
@@ -164,7 +164,7 @@ app.put('/edit/(:id)', function(req, res, next) {
 					req.flash('error', err)
 
 					// render to views/user/add.ejs
-					res.render('user/edit', {
+					res.render('main/edit', {
 						title: 'Edit User',
 						id: req.params.id,
 						username: req.body.username,
@@ -175,7 +175,7 @@ app.put('/edit/(:id)', function(req, res, next) {
 					req.flash('success', 'Data updated successfully!')
 
 					// render to views/user/add.ejs
-					res.render('user/edit', {
+					res.render('main/edit', {
 						title: 'Edit User',
 						id: req.params.id,
 						username: req.body.username,
@@ -197,7 +197,7 @@ app.put('/edit/(:id)', function(req, res, next) {
 		 * Using req.body.name
 		 * because req.param('name') is deprecated
 		 */
-        res.render('user/edit', {
+        res.render('main/edit', {
             title: 'Edit User',
 			id: req.params.id,
 			username: req.body.username,
