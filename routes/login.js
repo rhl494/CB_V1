@@ -23,7 +23,8 @@ app.get('/', function(req, res, next) {
 	})
 })
 
-// ADD NEW USER POST ACTION
+// ADD NEW USER POST ACTION CHANGES
+
 app.post('/add', function(req, res, next){
 	req.assert('username', 'username is required').notEmpty()           //Validate username
 	req.assert('password', 'password is required').notEmpty()             //Validate password
