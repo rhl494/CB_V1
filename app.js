@@ -2,7 +2,7 @@ var express = require('express')
 var app = express()
 
 var mysql = require('mysql')
-
+app.use('/public/images/', express.static('./public/images/'));
 
 /**
  * This middleware provides a consistent API 

@@ -1,63 +1,47 @@
 
-	
- <%- include layouts/head.ejs %>	 
- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
- <!------ Include the above in your HEAD tag ---------->
- 
- <html>
- 
- <head>
- <title>Login Form</title>
- <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
-   <link rel="stylesheet" type="text/css" href="css/main.css"
- </head>
- <body>
-        <form action="/users/add" method="post" name="form1">
-   <div class="section"></div>
-    <main>
-     <center>
-     
-         <div  class="z-depth-3 y-depth-3 x-depth-3 grey green-text lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px; margin-top: 100px;">
-         <div class="section"></div>
- <div class="section"></div>
-       
-    
-     
-      
-             <div class='row'>
-               <div class='input-field col s12'>
-                 <input class='validate' type="text" name='username' id='email' required />
-                 <label for='email'>Username</label>
-               </div>
-             </div>
-             <div class='row'>
-               <div class='input-field col m12'>
-                 <input class='validate' type='password' name='password' id='password' required />
-                 <label for='password'>Password</label>
-               </div>
-               <label style= float:right;>
-               <b style="color: #F5F5F5;">Forgot Password?</b>
-               </label>
-             </div>
-             <br/>
-             <center>
-               <div class='row'>
-                 <button style="margin-left:65px;"  type='submit' name='btn_login' class='col  s6 btn btn-small white black-text  waves-effect z-depth-1 y-depth-1'>Login</button>
-               </div>
-             </center>
-      
-         </div>
-       
-       </center>
-       </main>
 
-       <script src="js/login.js"></script>
-       
-     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.1/jquery.min.js"></script>
-     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
- </body>
- </html>
+<html>
+
+    <head>
+    <title>Login Form</title>
+    <%- include layouts/head.ejs %>	 
+   
+  
+   <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+   <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <!------ Include the above in your HEAD tag ---------->
+   
+   
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Pragati+Narrow" rel="stylesheet">
+      <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+      <link rel="stylesheet" type="text/css" href="css/main.css"
+    
+    </head>
+    
+    
+    <body>
+          
+
+   <div class="container">
+       <div class="row mgTp">
+           <form class="col-md-6 offset-md-3" action="/users/add" method="post" name="form1" >
+               <h3 class="title">Login</h3>
+               <hr class="divisor">
+               <div class="form-group">
+                   <label  for='email'>Username</label>
+           <input class='validate' type="text" name='username' id='email' required />
+               </div>
+               <div class="form-group">
+             <label for='password'>Password</label>
+             <input class='validate' type='password' name='password' id='password' required />
+               </div>
+               <div class="form-check">
+                   <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                   <label class="form-check-label" for="exampleCheck1">Remember me</label>
+               </div>
+         <button type="submit" class="btn btn-primary topBtn"><i class="fa fa-sign-in"></i> Login</button>
+         <button type="submit" class="btn btn-primary topBtn"><i class="fa fa-sign-in"></i> Sign up</button>
+           </form>
+       </div>
+   </div>
