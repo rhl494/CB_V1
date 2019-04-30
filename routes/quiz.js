@@ -1,21 +1,22 @@
 var express = require('express')
+
 var app = express()
 
-// SHOW LIST OF USERS
+// SHOW quiz
 app.get('/', function(req, res, next) {
 	req.getConnection(function(error, conn) {
-		conn.query('SELECT * FROM users ORDER BY id DESC',function(err, rows, fields) {
+		conn.query('SELECT * FROM testbank ORDER BY id DESC',function(err, rows, fields) {
 			//if(err) throw err
 			if (err) {
 				req.flash('error', err)
 				res.render('main/home', {
-					title: 'User List',
+					title: 'Quiz',
 					data: ''
 				})
 			} else {
 				// render to views/user/list.ejs template file
 				res.render('main/home', {
-					title: 'User List',
+					title: 'Quiz',
 					data: rows
 				})
 			}
@@ -26,9 +27,9 @@ app.get('/', function(req, res, next) {
 // ADD NEW USER POST ACTION CHANGES
 
 app.post('/home', function(req, res, next){
-	req.assert('username', 'username is required').notEmpty()           //Validate username
-	req.assert('password', 'password is required').notEmpty()             //Validate password
-    req.assert('administrator', 'Type y/n').notEmpty()  //validate admin privilage
+	req.assert('Quiz1').notEmpty()           //Validate username
+	req.assert('Quiz2').notEmpty()             //Validate password
+    req.assert('Quiz3').notEmpty()  //validate admin privilage
 
     var errors = req.validationErrors()
 
@@ -43,34 +44,34 @@ app.post('/home', function(req, res, next){
 		req.sanitize('comment').escape(); // returns 'a &lt;span&gt;comment&lt;/span&gt;'
 		req.sanitize('username').trim(); // returns 'a user'
 		********************************************/
-		var user = {
-			username: req.sanitize('username').escape().trim(),
-			password: req.sanitize('password').escape().trim(),
-			administrator: req.sanitize('administrator').escape().trim()
+		var Quiz = {
+			Quiz,1: req.sanitize('Quiz1').escape().trim(),
+			Quiz,2: req.sanitize('Quiz2').escape().trim(),
+			Quiz,3: req.sanitize('Quiz3').escape().trim()
 		}
 
 		req.getConnection(function(error, conn) {
-			conn.query('SELECT * FROM users WHERE username = ? AND password =?', [username, password], function(err, result) {
+			conn.query('SELECT * FROM testbank WHERE Quiz 1 = ? Quiz 2 = ?  Quiz 3 = ? ', [Quiz1, Quiz2, Quiz3], function(err, result) {
 				//if(err) throw err
 				if (err) {
 					req.flash('error', err)
 
 					// render to views/user/add.ejs
 					res.render('main/home', {
-						title: 'Add New User',
-						username: user.username,
-						password: user.password,
-						administrator: user.administrator
+						title: 'Quiz',
+						Quiz1: Quiz.Quiz1,
+						Quiz2: Quiz.Quiz2,
+						Quiz3: Quiz.Quiz3
 					})
 				} else {
 					req.flash('success', 'Data added successfully!')
 
 					// render to views/user/add.ejs
 					res.render('main/home', {
-						title: 'Add New User',
-						username: '',
-						password: '',
-						administrator: ''
+						title: 'Quiz',
+						Quiz1: Quiz.Quiz1,
+						Quiz2: Quiz.Quiz2,
+						Quiz3: Quiz.Quiz3
 					})
 				}
 			})
@@ -88,10 +89,10 @@ app.post('/home', function(req, res, next){
 		 * because req.param('name') is deprecated
 		 */
         res.render('main/home', {
-            title: 'Add New User',
-            username: req.body.username,
-            password: req.body.password,
-            administrator: req.body.administrator
+            title: 'Quiz',
+            Quiz1: Quiz.Quiz1,
+			Quiz2: Quiz.Quiz2,
+			Quiz3: Quiz.Quiz3
         })
     }
 })
@@ -99,23 +100,23 @@ app.post('/home', function(req, res, next){
 // SHOW EDIT USER FORM
 app.get('/edit/(:id)', function(req, res, next){
 	req.getConnection(function(error, conn) {
-		conn.query('SELECT * FROM users WHERE id = ?', [req.params.id], function(err, rows, fields) {
+		conn.query('SELECT * FROM testbank WHERE id = ?', [req.params.id], function(err, rows, fields) {
 			if(err) throw err
 
 			// if user not found
 			if (rows.length <= 0) {
-				req.flash('error', 'User not found with id = ' + req.params.id)
-				res.redirect('/users')
+				req.flash('error', 'Quiz not found with id = ' + req.params.id)
+				res.redirect('/login')
 			}
 			else { // if user found
 				// render to views/user/edit.ejs template file
-				res.render('main/edit', {
+				res.render('main/home', {
 					title: 'Edit User',
 					//data: rows[0],
 					id: rows[0].id,
-					username: rows[0].username,
-					password: rows[0].password,
-					administrator: rows[0].administrator
+					Quiz1: rows[0].Quiz1,
+					Quiz2: rows[0].Quiz2,
+					Quiz3: rows[0].Quiz3
 				})
 			}
 		})

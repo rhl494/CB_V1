@@ -38,7 +38,7 @@ app.get('/add', function(req, res, next){
 app.post('/add', function(req, res, next){
 	req.assert('username', 'username is required').notEmpty()           //Validate username
 	req.assert('password', 'password is required').notEmpty()             //Validate password
-    req.assert('administrator', 'Type y/n').notEmpty()  //validate admin privilage
+    req.assert('administrator').notEmpty()  //validate admin privilage
 
     var errors = req.validationErrors()
 
@@ -67,7 +67,7 @@ app.post('/add', function(req, res, next){
 
 					// render to views/user/add.ejs
 					res.render('main/add', {
-						title: 'Add New User',
+						title: 'Add new user',
 						username: user.username,
 						password: user.password,
 						administrator: user.administrator
@@ -77,7 +77,7 @@ app.post('/add', function(req, res, next){
 
 					// render to views/user/add.ejs
 					res.render('main/add', {
-						title: 'Add New User',
+						title: 'Add new user',
 						username: '',
 						password: '',
 						administrator: ''
@@ -98,7 +98,7 @@ app.post('/add', function(req, res, next){
 		 * because req.param('name') is deprecated
 		 */
         res.render('main/add', {
-            title: 'Add New User',
+            title: 'Add new user',
             username: req.body.username,
             password: req.body.password,
             administrator: req.body.administrator
