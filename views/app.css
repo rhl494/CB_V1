@@ -1,0 +1,40 @@
+@media (min-width:768px) { 
+	.navbar > .container {
+	    text-align: center;
+	}
+	.navbar-header {
+	    float: none;
+	    display: inline-block;
+	}
+	.navbar-brand {
+	    float: none;
+	    display: inline-block;
+	}
+	.navbar .navbar-nav {
+	    float: none;
+	    display: inline-block;
+	    clear: none;
+	}
+	.navbar .navbar-nav > li {
+	    float: none;
+	    display: inline-block;
+	}
+	.navbar .navbar-nav > li li {
+	    text-align: left
+	}
+	.collapse.navbar-collapse#centerednav {
+	    float: none;
+	    display: inline-block!important;
+	    width: auto;
+	    clear: none;
+    }
+}
+
+.wrapper {
+    text-align: center;
+}
+
+.button {
+    position: absolute;
+    top: 50%;
+}
