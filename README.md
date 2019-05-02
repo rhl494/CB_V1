@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 Node.js, Express & MySQL: Simple Add, Edit, Delete, View (CRUD)
 ========
 
@@ -20,3 +21,7 @@ email varchar(100) NOT NULL,
 PRIMARY KEY (id)
 );
 ```
+=======
+# quiz
+Group project
+>>>>>>> origin/master

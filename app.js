@@ -1,118 +1,420 @@
-var express = require('express')
-var app = express()
+var express = require('express');
+var body = require('body-parser');
+var connection = require('./public/javascripts/mysqlconnection');
+var databaseFunctions = require('./public/javascripts/database');
 
-var mysql = require('mysql')
-app.use('/public/images/', express.static('./public/images/'));
+// Start express
+var app = express();
 
-/**
- * This middleware provides a consistent API 
- * for MySQL connections during request/response life cycle
- */ 
-var myConnection  = require('express-myconnection')
-/**
- * Store database credentials in a separate config.js file
- * Load the file/module and its values
- */ 
-var config = require('./config')
-var dbOptions = {
-	host:	  config.database.host,
-	user: 	  config.database.user,
-	password: config.database.password,
-	port: 	  config.database.port, 
-	database: config.database.db
-}
-/**
- * 3 strategies can be used
- * single: Creates single database connection which is never closed.
- * pool: Creates pool of connections. Connection is auto release when response ends.
- * request: Creates new connection per new request. Connection is auto close when response ends.
- */ 
-app.use(myConnection(mysql, dbOptions, 'pool'))
+app.use(body.json()); // Parses html data to JSON
+app.use(body.urlencoded({extended: true})); // If data is sent URL encoded, parse to JSON
+connection.init();
 
-/**
- * setting up the templating view engine
- */ 
-app.set('view engine', 'ejs')
+//Instance variables
+var accLevel;
+var email;
+var quizId;
+var currQuizId;
+var quesId;
+var answers = [];
+var no_Ques = 0;
+var passwd;
 
-/**
- * import routes/index.js
- * import routes/users.js
- */ 
-var index = require('./routes/index')
-var users = require('./routes/users')
-var admin = require('./routes/admin')
-var login = require('./routes/login')
+// Set static folder
+app.use(express.static(__dirname + '/public'));
 
-/**
- * Express Validator Middleware for Form Validation
- */ 
-var expressValidator = require('express-validator')
-app.use(expressValidator())
+// View engine
+app.set('view engine', 'ejs');
+
+// Global variables
+app.locals.pageTitle = "Quiz Maker";
+
+// Routes
+/* Home/Login */
+app.get('/', function(req, res) {
+    res.render('index', {
+        title: 'Home',
+        classname: 'home'
+    });
+});
+
+/* Admin */
+app.get('/admin', function(req, res) {
+    res.render('admin', {
+        title: 'Admin',
+        classname: 'admin'
+    });
+});
+
+/* User */
+app.get('/user', function(req, res) {
+    connection.acquire(function (err, con) {
+        con.query('SELECT name FROM user WHERE mail = ?', email ,function (err, rows) {
+            con.release();
+            if(err) {
+                console.log(err);
+            } else {
+                user = JSON.parse(JSON.stringify(rows));
+                res.render('user', {
+                    title: 'User',
+                    user: user,
+                    classname: 'user'
+                });
+            }
+        });
+    });
+});
+
+/* Create Quiz */
+app.get('/createquiz', function(req, res) {
+    res.render('createquiz', {
+        title: 'Create Quiz',
+        classname: 'createquiz'
+    });
+});
+
+/* Settings */
+app.get('/settings', function(req, res) {
+    connection.acquire(function (err, con) {
+        con.query('SELECT * FROM user', function (err, rows) {
+            if(err) {
+                console.log(err);
+            } else {
+                con.query('SELECT * FROM quiz', function (err, quizes) {
+                    con.release();
+                    if(err) {
+                        console.log(err);
+                    } else {
+                        obj = JSON.parse(JSON.stringify(rows));
+                        quiz = JSON.parse(JSON.stringify(quizes));
+                        res.render('settings', {
+                            obj:obj,
+                            quiz:quiz,
+                            title: 'Settings',
+                            classname: 'settings'
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
+/* Take Quiz */
+app.get('/takequiz', function(req, res) {
+    connection.acquire(function (err, con) {
+        con.query('SELECT * FROM quiz', function (err, rows) {
+            con.release();
+            if(err) {
+                console.log(err);
+            } else {
+                loadquizes = JSON.parse(JSON.stringify(rows));
+                res.render('takeQuiz', {
+                    loadquizes:loadquizes,
+                    title: 'takequiz',
+                    classname: 'takequiz'
+                });
+            }
+        });
+    });
+});
+
+app.get('/takequiz/:id', function(req, res) {
+    connection.acquire(function (err, con) {
+        var quizId = req.params.id;
+        currQuizId = req.params.id;
+
+        con.query('SELECT * FROM quiz WHERE quizId = ?', quizId, function (err, qid) {
+            if(err) {
+                console.log(err);
+            } else {
+                con.query('SELECT * FROM question WHERE questionQuizId = ?', quizId, function (err, question) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        con.query('SELECT * FROM answers WHERE answerQuestionid IN (SELECT questionId FROM question WHERE questionQuizid = ?)', quizId, function (err, answer) {
+                            con.release();
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                loadQuizes = JSON.parse(JSON.stringify(qid));
+                                quizQuestions = JSON.parse(JSON.stringify(question));
+                                answers = JSON.parse(JSON.stringify(answer));
+                                res.render('takequizbyid', {
+                                    loadQuizes: loadQuizes,
+                                    quizQuestions: quizQuestions,
+                                    answers: answers,
+                                    title: 'Take quiz',
+                                    classname: 'takequizbyid'
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
+app.post('/takequiz/', function(req, res) {
+
+    var scored = req.body.stored_quizScore;
+    var postQuery = {quizTakenMail: email, QuizTakenQid: currQuizId , results: scored, elapTimes: 5};
+
+    connection.acquire(function (err, con) {
+        con.query("INSERT INTO quizTaken SET ?", postQuery, function (err, rows) {
+            con.release();
+            if(err) {
+                console.log(err);
+            } else {
+
+            }
+        });
+    });
+});
 
 
-/**
- * body-parser module is used to read HTTP POST data
- * it's an express middleware that reads form's input 
- * and store it as javascript object
- */ 
-var bodyParser = require('body-parser')
-/**
- * bodyParser.urlencoded() parses the text as URL encoded data 
- * (which is how browsers tend to send form data from regular forms set to POST) 
- * and exposes the resulting object (containing the keys and values) on req.body.
- */ 
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use(bodyParser.json())
+
+/* Profile */
+app.get('/profile', function(req, res) {
+    res.render('profile', {
+        title: 'Profile',
+        classname: 'profile'
+    });
+});
 
 
-/**
- * This module let us use HTTP verbs such as PUT or DELETE 
- * in places where they are not supported
- */ 
-var methodOverride = require('method-override')
 
-/**
- * using custom logic to override method
- * 
- * there are other ways of overriding as well
- * like using header & using query value
- */ 
-app.use(methodOverride(function (req, res) {
-  if (req.body && typeof req.body === 'object' && '_method' in req.body) {
-    // look in urlencoded POST bodies and delete it
-    var method = req.body._method
-    delete req.body._method
-    return method
-  }
-}))
-
-/**
- * This module shows flash messages
- * generally used to show success or error messages
- * 
- * Flash messages are stored in session
- * So, we also have to install and use 
- * cookie-parser & session modules
- */ 
-var flash = require('express-flash')
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-
-app.use(cookieParser('keyboard cat'))
-app.use(session({ 
-	secret: 'keyboard cat',
-	resave: false,
-	saveUninitialized: true,
-	cookie: { maxAge: 60000 }
-}))
-app.use(flash())
+/* Create question for quiz page */
+app.get('/createquizquestions', function(req, res) {
+    res.render('createquizquestions', {
+        title: 'createquizquestions',
+        classname: 'createquizquestions'
+    });
+});
 
 
-app.use('/', index)
-app.use('/users', users)
-app.use('/admin', admin)
-app.use('/login', login)
+app.post('/', function (req, res) {
+    var login = {
+        mail: req.body.mail,
+        password: req.body.password
+    };
+    console.log(login);
+    email = login.mail;
+    function getUserPassword() {
+        connection.acquire(function (err, con) {
+            con.query('SELECT password FROM user WHERE mail = ?', email, function (err, res) {
+                con.release();
+                if (err) {
+                    console.log(err);
+                } else {
+                    obj = JSON.parse(JSON.stringify(res));
+                    obj.forEach(function (resPassword) {
+                        passwd = resPassword.password;
+                    });
+                    console.log("Stored Password " + passwd);
+                }
+            });
+            if(passwd !== null || passwd !== "undefined"){
+                connection.acquire(function (err, con) {
+                    con.query('SELECT accountLevel FROM user WHERE mail = ?', email, function (err, res) {
+                        if (err) {
+                            consol.log(err);
+                        } else {
+                            obj = JSON.parse(JSON.stringify(res));
+                            obj.forEach(function (resAccaountLevel) {
+                               accLevel = resAccaountLevel.accountLevel;
+                            });
+                            console.log("Account level: " + accLevel);
+                        }
+                    });
+                });
+            }
+        });
+    }
+    function checkPassword() {
+        if (login.password == passwd) {
+            if (accLevel == "Admin") {
+                return res.redirect('/admin');
+            } else {
+                return res.redirect('/user');
+            }
+        } else {
+            console.log("Access Denied");
+            return res.redirect(req.get("referer"));
+        }
+    }
+    getUserPassword();
+    setTimeout(checkPassword, 500);
+});
 
-app.listen(3000, function(){
-	console.log('Server running at port 3000: http://127.0.0.1:3000')
+/*  send the input data from settings --> createUser --> database */
+app.post('/settings', function(req, res) {
+    var user = {
+        mail: req.body.mail,
+        name: req.body.name,
+        password: req.body.password,
+        accountLevel: req.body.accountLevel
+    };
+    databaseFunctions.createUser(user);
+    res.redirect(req.get('referer'));
+});
+
+/* Results */
+app.get('/results', function(req, res) {
+    connection.acquire(function (err, con) {
+        con.query('SELECT * FROM quiztaken, quiz', function (err, rows) {
+            con.release();
+            if(err) {
+                console.log(err);
+            } else {
+                loadResults = JSON.parse(JSON.stringify(rows));
+                res.render('results', {
+                    loadResults:loadResults,
+                    title: 'Results',
+                    classname: 'results'
+                });
+            }
+        });
+    });
+});
+
+
+
+
+
+// DELETE QUESTION
+app.delete('/delete/(:id)', function(req, res, next) {
+	var user = { id: req.params.id }
+
+	req.getConnection(function(error, conn) {
+		conn.query('DELETE FROM quiz WHERE quizId = ' + req.params.id, user, function(err, result) {
+			//if(err) throw err
+			if (err) {
+                console.log("error");
+			} else {
+				req.flash('success', 'Admin deleted successfully! id = ' + req.params.id)
+			}
+		})
+	})
 })
+
+
+/* Logout */
+app.get('/logout', function(req, res) {
+    email = null;
+    res.render('index', {
+        title: 'Home',
+        classname: 'home'
+    });
+});
+
+//Taking in form for creating a question and connected answers.
+app.post('/createquizquestions', function (req, res) {
+    //Checking what button were pressed.
+    if(req.body.hasOwnProperty("button1")){
+        no_Ques ++;
+        console.log("Quiz number added");
+    } else {
+        no_Ques = 0;
+        console.log("Quiz number NOT added");
+    }
+    function createQuestion() {
+        // Collection data from question form and creating an array.
+        var question = {
+            question: req.body.question,
+            questionQuizid: quizId
+        };
+        // Sending the question array to function for creating a query and sending to database
+        databaseFunctions.createQuestion(question);
+    };
+    function getQuestionId() {
+            connection.acquire(function (err, con) {
+            con.query('SELECT questionId FROM question ORDER BY questionId DESC LIMIT 1', function (err, questionIdRes) {
+                con.release();
+                if (err) {
+                    console.log(err)
+                } else {
+                    obj = JSON.parse(JSON.stringify(questionIdRes));
+                    obj.forEach(function (id) {
+                        quesId = id.questionId;
+                        console.log("Stored questionId: " + quesId);
+                    });
+                }
+            });
+        });
+    };
+    function createAnswrs() {
+        // Collection answers and if they are correct or not and save to an array.
+        var store_answers = req.body.answer;
+        var store_correct = req.body.correct;
+
+        //Looping trough answers and creating an object for each.
+        for (var o = 0; o < store_answers.length; o++) {
+            var answer = {
+                answer: store_answers[o],
+                correct: store_correct[o],
+                answerQuestionid: quesId
+            };
+            answers.push(answer); //Pushing answer objects to answers array.
+        }
+        //Looping trough the answers and sending them to function for storing in database
+        for (var i = 0; i < answers.length; i++) {
+            databaseFunctions.createAnswer(answers[i]);
+        }
+};
+    function redirect() {
+        if(no_Ques > 0) {
+            return res.redirect(req.get("referer"));
+        } else {
+            return res.redirect('/createquiz');
+        }
+    }
+
+    createQuestion();
+    setTimeout(getQuestionId, 500);
+    setTimeout(createAnswrs, 1000);
+    setTimeout(redirect, 1500);
+    answers = [];
+});
+
+/*  send input data from Create quiz form */
+app.post('/createquiz', function (req, res) {
+    function createQuiz() {
+        var quiz = {
+            quizName: req.body.quizName,
+            dateFinished: req.body.dateFinished,
+            times: req.body.times,
+            score: req.body.score
+        };
+        databaseFunctions.createQuiz(quiz);
+    };
+    function getQuizId() {
+        connection.acquire(function (err, con) {
+        con.query('SELECT quizId FROM quizdb.quiz ORDER BY quizId DESC LIMIT 1', function (err, quizIdres) {
+            con.release();
+            if (err) {
+                console.log(err)
+            } else {
+                obj = JSON.parse(JSON.stringify(quizIdres));
+                obj.forEach(function (id) {
+                    quizId = id.quizId;
+                    console.log("Stored QuizId: " + quizId);
+                });
+            }
+        });
+    });
+
+};
+    createQuiz();
+    setTimeout(getQuizId, 500);
+    return res.redirect('/createquizquestions');
+});
+
+
+
+// Start server on port 3000
+app.set('port', process.env.PORT || 3000); // use port 3000 unless there exists a preconfigured port
+var server = app.listen(app.get('port'), function() {
+    console.log('Listening on port:' +app.get('port'));
+});
