@@ -1,9 +1,22 @@
-<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha364-Gn5364xqQ1aoWXA+056RXPxPg6fy4IWvTNh0E663XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+						
+      
+
+
+<div class="container h-100">
+        <div class="d-flex align-items-center flex-column justify-content-center h-100" id="header">    
+                <h1>Take Quiz</h1>
     <% loadquizes.forEach(function (quizes) { %>
+        <form  class="col-md-8 offset-md-5" class="form-inline" >
+                <div class="button-wrapper">
+                        
         <a href="/takequiz/<%= quizes.quizId %>" class="quizLink"><div id="<%= quizes.quizId %>" class="well well-sm quizDiv ">
-                        <h2><%= quizes.quizName %></h2>
-                        <p>Available until: <%= quizes.dateFinished %></p>
+           
+            <button class="btn btn-rounded btn-primary btn-lg"><%= quizes.quizName %></button>
+          
+                        <p>Avaible until: <%= quizes.dateFinished %></p>
                 </div></a>
+                <p>Quiz Description:</p>
                     <script language="JavaScript">
                         var today = new Date();
                         var dd = today.getDate();
@@ -22,7 +35,11 @@
                             }
                     </script>
     <% }) %>
+
+</form> 
 </div>
+</div>
+
 <script>
     if( $('div').hasClass('old')){
         $('.old').removeClass('well well-sm');

@@ -1,35 +1,24 @@
-<div class="content col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <h1>
-        <div class="row">
-            <div class="col-md-8">
-                <% loadQuizes.forEach(function (quizes) { %>
-                    <h2 id="replacewithscore"><%= quizes.quizName %></h2> <!-- Load the name of quiz-->
-                    <script language="JavaScript">
-                        window.onload = function () {
-                            countdown(<%= quizes.times %>);
-                        }
-                    </script>
-                <% }) %>
-            </div>
-        <div class="col-md-2" id="countdown"></div>
-        <div class="col-md-2">
-            <% loadQuizes.forEach(function (quizScore) { %>
-                <p class="quizScore replacewithresoult hidden" id="<%= quizScore.score %>"><%= quizScore.score %></p>
-            <% }) %></div>
-        </div>
-    </h1>
-    <div id="answer"></div>
-    <form action="/takequiz/" method="POST" id="takequizform">
-        <% quizQuestions.forEach(function (question) { %>
-        <div class="well well-sm">
-                <h3><%= question.question %></h3>
-            <% answers.forEach(function (ans) { %>
-            <% if (ans.answerQuestionid === question.questionId) { %>
-            <input type="checkbox" class="answer" id="><%= ans.answerId %>" value="<%= ans.correct %>"><label><%= ans.answer %></label><br>
-            <% } %>
-            <% }) %>
-        </div> <!-- well -->
-        <% }) %>
-        <input type="submit" class="btn btn-lg btn-success center-block" value="Submit">
-    </form> <!-- form -->
-</div> <!-- content -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include partials/template/head.ejs %>
+</head>
+
+<body class="<%= classname %>">
+<% include partials/template/header.ejs %>
+
+<div class="container">
+    <% include partials/template/navigationadmin.ejs %>
+    <div class="row">
+        <% include partials/template/takequizbyid.ejs %>
+    </div><!-- row -->
+    <% include partials/template/footer.ejs %>
+</div><!-- container -->
+
+
+<% include partials/template/jsdefaults.ejs %>
+<script src="/javascripts/takequiz.js"></script>
+<script src="../javascripts/countdownclock.js"></script>
+</body>
+</html>
