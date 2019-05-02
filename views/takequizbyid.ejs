@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <% include partials/template/head.ejs %>
+</head>
+
+<body class="<%= classname %>">
+<% include partials/template/header.ejs %>
+
+<div class="container">
+    <% include partials/template/navigationadmin.ejs %>
+    <div class="row">
+        <% include partials/template/takequizbyid.ejs %>
+    </div><!-- row -->
+    <% include partials/template/footer.ejs %>
+</div><!-- container -->
+
+
+<% include partials/template/jsdefaults.ejs %>
+<script src="/javascripts/takequiz.js"></script>
+<script src="../javascripts/countdownclock.js"></script>
+</body>
+</html>

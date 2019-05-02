@@ -1,9 +1,21 @@
-<!--
-including header content which is common for all pages
--->
-<%- include layouts/header.ejs %>	
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <% include partials/template/head.ejs %>
+</head>
+<body class="<%= classname %>">
+<% include partials/template/header.ejs %>
 
-<!--
-including footer content which is common for all pages
--->
-<%- include layouts/footer.ejs %>
+<div class="container">
+    <div class="row">
+            <img class="img-responsive center-block" src="images/quizMakerLogo.png" class="img-responsive" alt="Quiz Logo">
+            <h1 class="hidden">Quiz App</h1>
+            <div>
+              <% include partials/template/login.ejs %>
+    </div><!-- row -->
+</div><!-- container -->
+
+  <% include partials/template/footer.ejs %>
+  <% include partials/template/jsdefaults.ejs %>
+</body>
+</html>

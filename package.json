@@ -1,29 +1,29 @@
 {
-  "name": "rahul",
+  "name": "quiz",
   "version": "1.0.0",
-  "description": "testing application and seeing how data goes from frontend",
-  "main": "(index.js)",
-  "dependencies": {
-    "body-parser": "^1.18.3",
-    "cookie-parser": "^1.4.4",
-    "ejs": "^2.6.1",
-    "express": "^4.16.4",
-    "express-flash": "0.0.2",
-    "express-myconnection": "^1.0.4",
-    "express-session": "^1.16.1",
-    "express-validator": "^5.3.1",
-    "method-override": "^3.0.0",
-    "mysql": "^2.17.0"
-  },
-  "devDependencies": {},
+  "description": "A node and express quiz Application",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AEkman/Quiz.git"
+  },
   "keywords": [
-    "node",
-    "crud",
-    "mysql"
+    "quiz"
   ],
-  "author": "rahul saxena",
-  "license": "ISC"
+  "author": "Andreas Ekman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AEkman/Quiz/issues"
+  },
+  "homepage": "https://github.com/AEkman/Quiz#readme",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "ejs": "^2.5.6",
+    "express": "^4.14.1",
+    "jquery": "^3.1.1",
+    "mysql": "^2.13.0"
+  }
 }
