@@ -1,0 +1,32 @@
+<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+    <% loadquizes.forEach(function (quizes) { %>
+        <a href="/admintakequiz/<%= quizes.quizId %>" class="quizLink"><div id="<%= quizes.quizId %>" class="well well-sm quizDiv ">
+                        <h2><%= quizes.quizName %></h2>
+                        <p>Available until: <%= quizes.dateFinished %></p>
+                </div></a>
+                    <script language="JavaScript">
+                        var today = new Date();
+                        var dd = today.getDate();
+                        var mm = today.getMonth()+1; //January is 0!
+                        var yyyy = today.getFullYear();
+                        if(dd<10){
+                            dd='0'+dd;
+                        }
+                        if(mm<10){
+                            mm='0'+mm;
+                        }
+                        var today = yyyy+'-'+mm+'-'+dd;
+                            var quizDate = '<%= quizes.dateFinished %>';
+                            if (today > quizDate) {
+                                    $('#' + '<%= quizes.quizId %>').addClass('old');
+                            }
+                    </script>
+    <% }) %>
+</div>
+<script>
+    if( $('div').hasClass('old')){
+        $('.old').removeClass('well well-sm');
+        $('.old').addClass('alert alert-danger');
+        $('.old').parent('a').removeAttr('href');
+    }
+</script>

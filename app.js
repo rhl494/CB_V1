@@ -27,7 +27,7 @@ app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs');
 
 // Global variables
-app.locals.pageTitle = "Quiz Maker";
+app.locals.pageTitle = "Chalkboard";
 
 // Routes
 /* Home/Login */
@@ -173,6 +173,79 @@ app.post('/takequiz/', function(req, res) {
     });
 });
 
+/* Take Quiz */
+app.get('/admintakequiz', function(req, res) {
+    connection.acquire(function (err, con) {
+        con.query('SELECT * FROM quiz', function (err, rows) {
+            con.release();
+            if(err) {
+                console.log(err);
+            } else {
+                loadquizes = JSON.parse(JSON.stringify(rows));
+                res.render('admintakeQuiz', {
+                    loadquizes:loadquizes,
+                    title: 'admintakequiz',
+                    classname: 'admintakequiz'
+                });
+            }
+        });
+    });
+});
+
+app.get('/admintakequiz/:id', function(req, res) {
+    connection.acquire(function (err, con) {
+        var adminquizId = req.params.id;
+        admincurrQuizId = req.params.id;
+
+        con.query('SELECT * FROM quiz WHERE quizId = ?', adminquizId, function (err, qid) {
+            if(err) {
+                console.log(err);
+            } else {
+                con.query('SELECT * FROM question WHERE questionQuizId = ?', adminquizId, function (err, question) {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        con.query('SELECT * FROM answers WHERE answerQuestionid IN (SELECT questionId FROM question WHERE questionQuizid = ?)', adminquizId, function (err, answer) {
+                            con.release();
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                loadQuizes = JSON.parse(JSON.stringify(qid));
+                                quizQuestions = JSON.parse(JSON.stringify(question));
+                                answers = JSON.parse(JSON.stringify(answer));
+                                res.render('admintakequizbyid', {
+                                    loadQuizes: loadQuizes,
+                                    quizQuestions: quizQuestions,
+                                    answers: answers,
+                                    title: 'Take quiz',
+                                    classname: 'admintakequizbyid'
+                                });
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    });
+});
+
+app.post('/admintakequiz/', function(req, res) {
+
+    var scored = req.body.stored_quizScore;
+    var postQuery = {quizTakenMail: email, QuizTakenQid: admincurrQuizId , results: scored, elapTimes: 5};
+
+    connection.acquire(function (err, con) {
+        con.query("INSERT INTO quizTaken SET ?", postQuery, function (err, rows) {
+            con.release();
+            if(err) {
+                console.log(err);
+            } else {
+
+            }
+        });
+    });
+});
+
 
 
 /* Profile */
@@ -190,6 +263,15 @@ app.get('/createquizquestions', function(req, res) {
     res.render('createquizquestions', {
         title: 'createquizquestions',
         classname: 'createquizquestions'
+    });
+});
+
+
+/* User Profile */
+app.get('/userprofile', function(req, res) {
+    res.render('userprofile', {
+        title: 'Profile',
+        classname: 'userprofile'
     });
 });
 
@@ -263,7 +345,7 @@ app.post('/settings', function(req, res) {
 /* Results */
 app.get('/results', function(req, res) {
     connection.acquire(function (err, con) {
-        con.query('SELECT * FROM quiztaken, quiz', function (err, rows) {
+        con.query('SELECT * FROM quiztaken', function (err, rows) {
             con.release();
             if(err) {
                 console.log(err);
@@ -298,6 +380,25 @@ app.delete('/delete/(:id)', function(req, res, next) {
 		})
 	})
 })
+
+app.get('/userresults', function(req, res) {
+    connection.acquire(function (err, con) {
+        con.query('SELECT * FROM quiztaken', function (err, rows) {
+            con.release();
+            if(err) {
+                console.log(err);
+            } else {
+                loadResults = JSON.parse(JSON.stringify(rows));
+                res.render('userresults', {
+                    loadResults:loadResults,
+                    title: 'Results',
+                    classname: 'userresults'
+                });
+            }
+        });
+    });
+});
+
 
 
 /* Logout */
