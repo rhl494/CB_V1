@@ -362,25 +362,6 @@ app.get('/results', function(req, res) {
 });
 
 
-
-
-
-// DELETE QUESTION
-app.delete('/delete/(:id)', function(req, res, next) {
-	var user = { id: req.params.id }
-
-	req.getConnection(function(error, conn) {
-		conn.query('DELETE FROM quiz WHERE quizId = ' + req.params.id, user, function(err, result) {
-			//if(err) throw err
-			if (err) {
-                console.log("error");
-			} else {
-				req.flash('success', 'Admin deleted successfully! id = ' + req.params.id)
-			}
-		})
-	})
-})
-
 app.get('/userresults', function(req, res) {
     connection.acquire(function (err, con) {
         con.query('SELECT * FROM quiztaken', function (err, rows) {
