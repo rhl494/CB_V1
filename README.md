@@ -5,5 +5,7 @@
   Languages used:
   
   FrontEnd - HTML + BootStrap CSS + JavaScript
+  
   Backend  - Node.JS + Express + JavaScript
+  
   Database - MySQL + Database
