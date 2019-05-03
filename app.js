@@ -80,13 +80,13 @@ app.get('/settings', function(req, res) {
             if(err) {
                 console.log(err);
             } else {
-                con.query('SELECT * FROM quiz', function (err, quizes) {
+                con.query('SELECT * FROM quiz', function (err, quizzes) {
                     con.release();
                     if(err) {
                         console.log(err);
                     } else {
                         obj = JSON.parse(JSON.stringify(rows));
-                        quiz = JSON.parse(JSON.stringify(quizes));
+                        quiz = JSON.parse(JSON.stringify(quizzes));
                         res.render('settings', {
                             obj:obj,
                             quiz:quiz,
@@ -108,9 +108,9 @@ app.get('/takequiz', function(req, res) {
             if(err) {
                 console.log(err);
             } else {
-                loadquizes = JSON.parse(JSON.stringify(rows));
+                loadquizzes = JSON.parse(JSON.stringify(rows));
                 res.render('takeQuiz', {
-                    loadquizes:loadquizes,
+                    loadquizzes:loadquizzes,
                     title: 'takequiz',
                     classname: 'takequiz'
                 });
@@ -137,11 +137,11 @@ app.get('/takequiz/:id', function(req, res) {
                             if (err) {
                                 console.log(err);
                             } else {
-                                loadQuizes = JSON.parse(JSON.stringify(qid));
+                                loadQuizzes = JSON.parse(JSON.stringify(qid));
                                 quizQuestions = JSON.parse(JSON.stringify(question));
                                 answers = JSON.parse(JSON.stringify(answer));
                                 res.render('takequizbyid', {
-                                    loadQuizes: loadQuizes,
+                                    loadQuizzes: loadQuizzes,
                                     quizQuestions: quizQuestions,
                                     answers: answers,
                                     title: 'Take quiz',
@@ -181,9 +181,9 @@ app.get('/admintakequiz', function(req, res) {
             if(err) {
                 console.log(err);
             } else {
-                loadquizes = JSON.parse(JSON.stringify(rows));
+                loadquizzes = JSON.parse(JSON.stringify(rows));
                 res.render('admintakeQuiz', {
-                    loadquizes:loadquizes,
+                    loadquizzes:loadquizzes,
                     title: 'admintakequiz',
                     classname: 'admintakequiz'
                 });
@@ -210,11 +210,11 @@ app.get('/admintakequiz/:id', function(req, res) {
                             if (err) {
                                 console.log(err);
                             } else {
-                                loadQuizes = JSON.parse(JSON.stringify(qid));
+                                loadQuizzes = JSON.parse(JSON.stringify(qid));
                                 quizQuestions = JSON.parse(JSON.stringify(question));
                                 answers = JSON.parse(JSON.stringify(answer));
                                 res.render('admintakequizbyid', {
-                                    loadQuizes: loadQuizes,
+                                    loadQuizzes: loadQuizzes,
                                     quizQuestions: quizQuestions,
                                     answers: answers,
                                     title: 'Take quiz',

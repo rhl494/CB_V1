@@ -2,18 +2,18 @@
     <h1>
         <div class="row">
             <div class="col-md-8">
-                <% loadQuizes.forEach(function (quizes) { %>
-                    <h2 id="replacewithscore"><%= quizes.quizName %></h2> <!-- Load the name of quiz-->
+                <% loadQuizzes.forEach(function (quizzes) { %>
+                    <h2 id="replacewithscore"><%= quizzes.quizName %></h2> <!-- Load the name of quiz-->
                     <script language="JavaScript">
                         window.onload = function () {
-                            countdown(<%= quizes.times %>);
+                            countdown(<%= quizzes.times %>);
                         }
                     </script>
                 <% }) %>
             </div>
         <div class="col-md-2" id="countdown"></div>
         <div class="col-md-2">
-            <% loadQuizes.forEach(function (quizScore) { %>
+            <% loadQuizzes.forEach(function (quizScore) { %>
                 <p class="quizScore replacewithresoult hidden" id="<%= quizScore.score %>"><%= quizScore.score %></p>
             <% }) %></div>
         </div>

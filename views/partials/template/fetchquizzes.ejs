@@ -1,8 +1,8 @@
 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <% loadquizes.forEach(function (quizes) { %>
-        <a href="/takequiz/<%= quizes.quizId %>" class="quizLink"><div id="<%= quizes.quizId %>" class="well well-sm quizDiv ">
-                        <h2><%= quizes.quizName %></h2>
-                        <p>Available until: <%= quizes.dateFinished %></p>
+    <% loadquizzes.forEach(function (quizzes) { %>
+        <a href="/takequiz/<%= quizzes.quizId %>" class="quizLink"><div id="<%= quizzes.quizId %>" class="well well-sm quizDiv ">
+                        <h2><%= quizzes.quizName %></h2>
+                        <p>Available until: <%= quizzes.dateFinished %></p>
                 </div></a>
                     <script language="JavaScript">
                         var today = new Date();
@@ -16,9 +16,9 @@
                             mm='0'+mm;
                         }
                         var today = yyyy+'-'+mm+'-'+dd;
-                            var quizDate = '<%= quizes.dateFinished %>';
+                            var quizDate = '<%= quizzes.dateFinished %>';
                             if (today > quizDate) {
-                                    $('#' + '<%= quizes.quizId %>').addClass('old');
+                                    $('#' + '<%= quizzes.quizId %>').addClass('old');
                             }
                     </script>
     <% }) %>
