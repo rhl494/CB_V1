@@ -342,6 +342,32 @@ app.post('/settings', function(req, res) {
     res.redirect(req.get('referer'));
 });
 
+/*  deleteUser --> database */
+app.post('/settings', function(req, res) {
+    var user = {
+        mail: req.body.mail,
+        name: req.body.name,
+        password: req.body.password,
+        accountLevel: req.body.accountLevel
+    };
+    databaseFunctions.deleteUser(user);
+    res.redirect(req.get('referer'));
+});
+
+/*  deleteUser --> database */
+app.post('/settings', function(req, res) {
+    var user = {
+        quizName: req.body.quizName,
+        dateFinished: req.body.dateFinished,
+        times: req.body.times,
+        score: req.body.score
+    };
+    databaseFunctions.deleteQuiz(user);
+    res.redirect(req.get('referer'));
+});
+
+
+
 /* Results */
 app.get('/results', function(req, res) {
     connection.acquire(function (err, con) {

@@ -35,7 +35,7 @@ DROP TABLE IF EXISTS question;
 	questionId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	question LONGTEXT NOT NULL,
 	questionQuizid INT NOT NULL,
-	FOREIGN KEY (questionQuizid) REFERENCES quiz(quizId)
+	FOREIGN KEY (questionQuizid) REFERENCES quiz(quizId) ON UPDATE CASCADE ON DELETE CASCADE
 	);
 
     INSERT INTO question (questionQuizid,question) VALUES (1,"Select a for test purposes.");
@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS answers;
 	answer TEXT NOT NULL,
 	correct BOOLEAN NOT NULL,
 	answerQuestionid INT NOT NULL,
-	FOREIGN KEY (answerQuestionid) REFERENCES question(questionId)
+	FOREIGN KEY (answerQuestionid) REFERENCES question(questionId) ON UPDATE CASCADE ON DELETE CASCADE
 	);
 
 	INSERT INTO answers (answerQuestionid,correct,answer) VALUES (1,5,"a");
@@ -86,8 +86,8 @@ DROP TABLE IF EXISTS quiztaken;
 	quizTakenQid INT NOT NULL,
 	results SMALLINT NOT NULL,
 	elapTimes INT NOT NULL,
-	FOREIGN KEY (quizTakenQid) REFERENCES question(questionId),
-	FOREIGN KEY (quizTakenMail) REFERENCES user(mail)
+	FOREIGN KEY (quizTakenQid) REFERENCES question(questionId) ON UPDATE CASCADE ON DELETE CASCADE,
+	FOREIGN KEY (quizTakenMail) REFERENCES user(mail) ON UPDATE CASCADE ON DELETE CASCADE
 	);
 
 	-- INSERT INTO quizTaken (quizTakenMail, QuizTakenQid, results, elapTimes) VALUES ("info@andreasekman.com",1,39,'10');

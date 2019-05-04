@@ -17,7 +17,14 @@
                     <td><%= user.mail %></td>
                     <td><%= user.name %></td>
                     <td><%= user.accountLevel %></td>
-                    <td><a><a href=""><span class="glyphicon glyphicon-trash"></span></a></td>
+                    <td>
+                        <div style="float:left">
+                            <form method="post" action="/settings" id="deleteUser" style="float:right">
+                                <input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
+                                <input type="hidden" name="_method" value="DELETE" />
+                            </form>
+                        </div>
+                    </td>
                 </tr>
                 <% }) %>
                 </tbody>

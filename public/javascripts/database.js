@@ -8,8 +8,7 @@ function User() {
                 con.release();
                 res.send(result);
             });
-        });
-        
+        });    
     };
 
     /* Insert user data into mySQL database */
@@ -41,6 +40,21 @@ function User() {
         });
     };
 
+    // Deleting a user function
+    this.deleteUser = function (user) {
+        console.log(user);
+        connection.acquire(function (err, con) {
+            con.query("DELETE FROM user WHERE main = ?", user, function (err) {
+                con.release();
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log('User deleted successfully');
+                }
+            });
+        });
+    };
+
      //Create question function
     this.createQuestion = function (question) {
         console.log(question);
@@ -55,6 +69,8 @@ function User() {
             });
         });
     };
+
+    
 
     //Create answer function
     this.createAnswer = function (answer) {
@@ -82,6 +98,21 @@ function User() {
                 } else {
                     con.query("SELECT LAST_INSERT_ID();", function (err, result) {
                 });
+                }
+            });
+        });
+    };
+
+    // Deleting a user function
+    this.deleteQuiz = function (user) {
+        console.log(user);
+        connection.acquire(function (err, con) {
+            con.query("DELETE FROM quiz WHERE quizId = ?", user, function (err) {
+                con.release();
+                if(err) {
+                    console.log(err);
+                } else {
+                    console.log('Quiz deleted successfully');
                 }
             });
         });
