@@ -1,6 +1,3 @@
-/**
- * Created by erica on 2017-02-25.
- */
 var connection = require('./mysqlconnection');
 
 function User() {
