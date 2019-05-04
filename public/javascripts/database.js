@@ -9,7 +9,7 @@ function User() {
                 res.send(result);
             });
         });
-        console.log('SELECT * FROM Databas kördes!')
+        
     };
 
     /* Insert user data into mySQL database */
@@ -35,7 +35,7 @@ function User() {
                 if(err) {
                     console.log(err);
                 } else {
-                    console.log('Usercreated successfully');
+                    console.log('User created successfully');
                 }
             });
         });
