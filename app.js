@@ -19,6 +19,7 @@ var quesId;
 var answers = [];
 var no_Ques = 0;
 var passwd;
+var quizzes;
 
 // Set static folder
 app.use(express.static(__dirname + '/public'));
@@ -384,22 +385,23 @@ app.get('/userresults', function(req, res) {
         });
     });
 });
-/*
-app.delete('/delete/:id', function(req, res) {
 
-    var user = { id: req.params.id }
+app.post('/del/:id', function(req, res) {
+    
+    var data = { quizId: req.params.id }
+    quizzes = data.quizId;
     connection.acquire(function (err, con) {
-        con.query('SELECT * FROM quiz WHERE quizId = ' + req.params.id, user, function (err, rows) {
+        con.query('DELETE FROM quizdb.quiz WHERE quizId = ?', quizzes, function (err, rows) {
             con.release();
             if(err) {
                 console.log(err);
             } else {
                 console.log("Deleted!");
-                res.redirect('/app')
+                res.redirect('/settings');
                 }
         });
     });
-}); */
+});
 
 app.post('/delete/:mail', function(req, res) {
 
