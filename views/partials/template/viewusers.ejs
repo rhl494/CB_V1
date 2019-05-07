@@ -19,7 +19,7 @@
                     <td><%= user.accountLevel %></td>
                     <td>
                         <div style="float:left">
-                            <form method="post" action="/settings" id="deleteUser" style="float:right">
+                            <form method="post" action="/delete/<%= user.mail%>" id="<%= user.mail %>" style="float:right">
                                 <input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
                                 <input type="hidden" name="_method" value="DELETE" />
                             </form>

@@ -21,7 +21,7 @@
                                 <td><%= data.score %></td>
                                 <td>
                                     <div style="float:left">
-                                        <form method="post" action="/settings" id="deleteQuiz" style="float:right">
+                                        <form method="post" action="/app/<%= data.quizId %>" id="<%= data.quizId %>" style="float:right">
                                             <input type="submit" name="delete" value='Delete' onClick="return confirm('Are you sure you want to delete?')" />
                                             <input type="hidden" name="_method" value="DELETE" />
                                         </form>

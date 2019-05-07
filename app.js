@@ -156,6 +156,8 @@ app.get('/takequiz/:id', function(req, res) {
     });
 });
 
+
+
 app.post('/takequiz/', function(req, res) {
 
     var scored = req.body.stored_quizScore;
@@ -301,11 +303,11 @@ app.post('/', function (req, res) {
                 connection.acquire(function (err, con) {
                     con.query('SELECT accountLevel FROM user WHERE mail = ?', email, function (err, res) {
                         if (err) {
-                            consol.log(err);
+                            console.log(err);
                         } else {
                             obj = JSON.parse(JSON.stringify(res));
-                            obj.forEach(function (resAccaountLevel) {
-                               accLevel = resAccaountLevel.accountLevel;
+                            obj.forEach(function (resAccountLevel) {
+                               accLevel = resAccountLevel.accountLevel;
                             });
                             console.log("Account level: " + accLevel);
                         }
@@ -314,6 +316,7 @@ app.post('/', function (req, res) {
             }
         });
     }
+
     function checkPassword() {
         if (login.password == passwd) {
             if (accLevel == "Admin") {
@@ -339,30 +342,6 @@ app.post('/settings', function(req, res) {
         accountLevel: req.body.accountLevel
     };
     databaseFunctions.createUser(user);
-    res.redirect(req.get('referer'));
-});
-
-/*  deleteUser --> database */
-app.post('/settings', function(req, res) {
-    var user = {
-        mail: req.body.mail,
-        name: req.body.name,
-        password: req.body.password,
-        accountLevel: req.body.accountLevel
-    };
-    databaseFunctions.deleteUser(user);
-    res.redirect(req.get('referer'));
-});
-
-/*  deleteUser --> database */
-app.post('/settings', function(req, res) {
-    var user = {
-        quizName: req.body.quizName,
-        dateFinished: req.body.dateFinished,
-        times: req.body.times,
-        score: req.body.score
-    };
-    databaseFunctions.deleteQuiz(user);
     res.redirect(req.get('referer'));
 });
 
@@ -405,8 +384,39 @@ app.get('/userresults', function(req, res) {
         });
     });
 });
+/*
+app.delete('/delete/:id', function(req, res) {
 
+    var user = { id: req.params.id }
+    connection.acquire(function (err, con) {
+        con.query('SELECT * FROM quiz WHERE quizId = ' + req.params.id, user, function (err, rows) {
+            con.release();
+            if(err) {
+                console.log(err);
+            } else {
+                console.log("Deleted!");
+                res.redirect('/app')
+                }
+        });
+    });
+}); */
 
+app.post('/delete/:mail', function(req, res) {
+
+    var user = { mail: req.params.mail }
+    email = user.mail;
+    connection.acquire(function (err, con) {
+        con.query('DELETE FROM quizdb.user WHERE mail = ?', email, function (err, rows) {
+            con.release();
+            if(err) {
+                console.log(err);
+            } else {
+                console.log("Deleted!");
+                res.redirect('/settings');
+                }
+        });
+    });
+});
 
 /* Logout */
 app.get('/logout', function(req, res) {
