@@ -8,17 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/AEkman/Quiz.git"
+    "url": "git+https://github.com/rhl494/Chalkboard418"
   },
   "keywords": [
     "quiz"
   ],
-  "author": "Andreas Ekman",
+  "author": "Chalkboard418",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/AEkman/Quiz/issues"
+    "url": "https://github.com/rhl494/Chalkboard418/issues"
   },
-  "homepage": "https://github.com/AEkman/Quiz#readme",
+  "homepage": "https://github.com/rhl494/Chalkboard418",
   "dependencies": {
     "body-parser": "^1.16.1",
     "ejs": "^2.5.6",
