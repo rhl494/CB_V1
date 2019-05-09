@@ -8,17 +8,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rhl494/Chalkboard418"
+    "url": "git+https://github.com/rhl494/CB_V1"
   },
   "keywords": [
     "quiz"
   ],
-  "author": "Chalkboard418",
+  "author": "Chalkboard!",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/rhl494/Chalkboard418/issues"
+    "url": "https://github.com/rhl494/CB_V1/issues"
   },
-  "homepage": "https://github.com/rhl494/Chalkboard418",
+  "homepage": "https://github.com/rhl494/CB_V1",
   "dependencies": {
     "body-parser": "^1.16.1",
     "ejs": "^2.5.6",
