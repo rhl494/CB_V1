@@ -12,7 +12,6 @@ DROP TABLE IF EXISTS user;
 	);
 
 	INSERT INTO user (mail, name, password, accountLevel) VALUES("admin@admin.com", "Admin", "admin" , "Admin");
-	-- INSERT INTO user (mail,name, password, groups, accountLevel) VALUES("creator@creator.com", "Creator", "creator" ,"Group 2", "Creator");
 	INSERT INTO user (mail, name, password, accountLevel) VALUES("user@user.com", "User", "user" , "User");
 
 
@@ -89,5 +88,3 @@ DROP TABLE IF EXISTS quiztaken;
 	FOREIGN KEY (quizTakenQid) REFERENCES question(questionId) ON UPDATE CASCADE ON DELETE CASCADE,
 	FOREIGN KEY (quizTakenMail) REFERENCES user(mail) ON UPDATE CASCADE ON DELETE CASCADE
 	);
-
-	-- INSERT INTO quizTaken (quizTakenMail, QuizTakenQid, results, elapTimes) VALUES ("info@andreasekman.com",1,39,'10');
