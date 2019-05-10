@@ -534,7 +534,7 @@ app.post('/createquiz', function (req, res) {
 
 
 // Start server on port 1337
-app.set('port', process.env.PORT || 8080); // use port 1337 unless there exists a preconfigured port
+app.set('port', process.env.PORT || 80); // use port 1337 unless there exists a preconfigured port
 app.listen(app.get('port'), function() {
     console.log('Listening on port:' +app.get('port'));
 });
