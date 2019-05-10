@@ -2,7 +2,7 @@ var express = require('express');
 var body = require('body-parser');
 var connection = require('./public/javascripts/mysqlconnection');
 var databaseFunctions = require('./public/javascripts/database');
-//var http = require('http');
+var http = require('http');
 // Start express
 var app = express();
 
@@ -534,7 +534,7 @@ app.post('/createquiz', function (req, res) {
 
 
 // Start server on port 1337
-app.set('port', process.env.PORT || 3000); // use port 1337 unless there exists a preconfigured port
+app.set('port', process.env.PORT || 8080); // use port 1337 unless there exists a preconfigured port
 app.listen(app.get('port'), function() {
     console.log('Listening on port:' +app.get('port'));
 });
