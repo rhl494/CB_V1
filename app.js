@@ -2,7 +2,7 @@ var express = require('express');
 var body = require('body-parser');
 var connection = require('./public/javascripts/mysqlconnection');
 var databaseFunctions = require('./public/javascripts/database');
-http = require('http');
+var http = require('http');
 // Start express
 var app = express();
 
